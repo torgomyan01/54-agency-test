@@ -1,0 +1,70 @@
+@import url(https://db.onlinewebfonts.com/c/88f10bf18a36407ef36bf30bc25a3618?family=SuisseIntl-Regular);
+@import "assets/icons/style.css";
+@import "assets/helper";
+
+::-webkit-scrollbar {
+  //width: 5px;
+  height: 0;
+  border-radius: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ffff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #E5E5F8;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #cccce7;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  box-sizing: border-box;
+  text-decoration: none !important;
+  font-family: "SuisseIntl-Regular", serif;
+  font-weight: 400;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+@media (max-width: 992px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media (max-width: 768px) {
+  html {
+    font-size: 12px;
+  }
+}
+.trans {
+  transition: 0.3s;
+}
+
+body{
+  background-color: #000000 !important;
+  mix-blend-mode: difference;
+}
+
+.container{
+  max-width: 1780px !important;
+}
