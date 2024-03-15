@@ -3,13 +3,12 @@ import './home.scss';
 import styled from 'styled-components';
 import Navbar from '../../features/navbar/navbar';
 import HeaderText from '../../features/header-text/header-text';
-import { Fade, Zoom } from 'react-awesome-reveal';
+import { Fade } from 'react-awesome-reveal';
 import videoPlay from '../../assets/videos/header-video.mp4';
 import gsap from 'gsap';
 
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Scrollbar from 'smooth-scrollbar';
-gsap.registerPlugin(ScrollTrigger);
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const H1 = styled.h1`
   color: rgb(255, 255, 255);
@@ -58,18 +57,58 @@ function Home() {
   const PageWrapper = useRef<any>(null);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const container = containerRef.current;
     const element = videoRef.current;
+    const PGWrapper: any = PageWrapper.current;
 
-    if (!container || !element) {
+    if (!container || !element || !PGWrapper) {
       return;
     }
 
-    // Scrollbar.init(PageWrapper.current, {
-    //   damping: 0.05
-    //   // thumbMinSize: 10,
-    //   // renderByPixels: true
-    // });
+    const bodyScrollBar: any = Scrollbar.init(document.body, {
+      damping: 0.1
+      // delegateTo: document
+      // alwaysShowTracks: true
+    });
+    // bodyScrollBar.setPosition(0, 0);
+    // bodyScrollBar.track.xAxis.element.remove();
+
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length) {
+          bodyScrollBar.scrollTop = value;
+        }
+        return bodyScrollBar.scrollTop;
+      }
+    });
+
+    bodyScrollBar.addListener((e: any) => {
+      ScrollTrigger.refresh();
+      ScrollTrigger.update();
+    });
+
+    gsap.to(element, {
+      scrollTrigger: {
+        trigger: PGWrapper,
+        start: 'top top-=-80',
+        end: 'top top-=850',
+        // markers: true,
+        scrub: true,
+        onUpdate(self) {
+          const percent = +(self.progress * 100).toFixed();
+          gsap.to(element, {
+            y: -(550 - (550 * percent) / 100),
+            width: percent >= 20 ? `${percent}%` : '20%',
+            height: percent >= 20 ? `${percent - 10}vh` : '20vh',
+            ease: 'power2.out'
+          });
+        },
+        onEnter() {
+          console.log('gtav');
+        }
+      }
+    });
 
     const onMouseMove = (event: any) => {
       const containerBounds = container.getBoundingClientRect();
@@ -94,52 +133,34 @@ function Home() {
 
     container.addEventListener('mousemove', onMouseMove);
 
-    gsap.to(element, {
-      scrollTrigger: {
-        trigger: document.body,
-        start: 'top top-=-80',
-        end: 'top top-=850',
-        // markers: true,
-        onUpdate(e) {
-          const percent = +(e.progress * 100).toFixed();
-          gsap.to(element, {
-            y: -(550 - (550 * percent) / 100),
-            width: percent >= 20 ? `${percent}%` : '20%',
-            height: percent >= 20 ? `${percent - 10}vh` : '20vh',
-            ease: 'power2.out'
-          });
-        }
-      }
-    });
-    PageWrapper.current.addEventListener('scroll', function () {
-      console.log('sss');
-    });
-
     return () => {
+      bodyScrollBar.destroy();
       container.removeEventListener('mousemove', onMouseMove);
     };
   }, []);
 
   return (
-    <div ref={PageWrapper} className="vh-100">
-      <Navbar />
-      <div className="container px-0" ref={containerRef}>
-        <HeaderText />
-        <Fade delay={3200} direction="left" duration={2000} triggerOnce>
-          <H1>
-            Создаем цифровые продукты, <br /> которые покоряют с первого клика
-          </H1>
-        </Fade>
-        <Fade delay={3500} direction="left" duration={2000} triggerOnce>
-          <Discuss>Обсудить ваш проект →</Discuss>
-        </Fade>
-        <Fade delay={3200} duration={2000} triggerOnce>
-          <div style={{ height: 2500 }}>
+    <div ref={PageWrapper} className="PageWrapper">
+      <div style={{ height: 4000 }}>
+        <Navbar />
+        <div className="container px-0" ref={containerRef}>
+          <HeaderText />
+          <Fade delay={3200} direction="left" duration={2000} triggerOnce>
+            <H1>
+              Создаем цифровые продукты, <br /> которые покоряют с первого клика
+            </H1>
+          </Fade>
+          <Fade delay={3500} direction="left" duration={2000} triggerOnce>
+            <Discuss>Обсудить ваш проект →</Discuss>
+          </Fade>
+          {/*<Fade delay={3200} duration={2000} triggerOnce>*/}
+          <div>
             <VideoBlock className="video-block" ref={videoRef}>
               <video src={videoPlay} autoPlay={true} muted loop />
             </VideoBlock>
           </div>
-        </Fade>
+          {/*</Fade>*/}
+        </div>
       </div>
     </div>
   );

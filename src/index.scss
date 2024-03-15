@@ -63,9 +63,19 @@
 body{
   background-color: #000000 !important;
   mix-blend-mode: difference;
-  height: 100vh;
+  //height: 100vh;
+  overflow: hidden !important;
+}
+
+.PageWrapper{
+  height: 100vh ;
 }
 
 .container{
   max-width: 1780px !important;
 }
+
+//[data-scrollbar] {
+//  display: block;
+//  position: relative;
+//}

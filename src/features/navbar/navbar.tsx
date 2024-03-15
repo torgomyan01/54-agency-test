@@ -66,22 +66,24 @@ const menuItems = ['Проекты', 'Услуги', 'Агентство', 'Ко
 function Navbar() {
   return (
     <NavbarContent>
-      <div className="container">
-        <img src={logo} alt="Logo site" />
+      <Fade delay={3000} duration={2000} triggerOnce>
+        <div className="container">
+          <img src={logo} alt="Logo site" />
 
-        <NavbarContentMenu>
-          {menuItems.map((item) => (
-            <Link className="NavbarContentMenu-item" to="#" key={RandomKey()}>
-              {item}
-            </Link>
-          ))}
-        </NavbarContentMenu>
+          <NavbarContentMenu>
+            {menuItems.map((item) => (
+              <Link className="NavbarContentMenu-item" to="#" key={RandomKey()}>
+                {item}
+              </Link>
+            ))}
+          </NavbarContentMenu>
 
-        <ProjectQuotations>
-          <span className="icon-Telegram" />
-          Обсудить проект
-        </ProjectQuotations>
-      </div>
+          <ProjectQuotations>
+            <span className="icon-Telegram" />
+            Обсудить проект
+          </ProjectQuotations>
+        </div>
+      </Fade>
     </NavbarContent>
   );
 }
