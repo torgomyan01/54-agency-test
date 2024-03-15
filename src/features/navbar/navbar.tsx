@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import logo from '../../assets/images/54-agency-logo-navbar.svg';
 import { RandomKey } from '../../utils/helpers';
 import { Link } from 'react-router-dom';
+import { Fade } from 'react-awesome-reveal';
 
 const NavbarContent = styled.div`
   position: fixed;
@@ -65,22 +66,24 @@ const menuItems = ['Проекты', 'Услуги', 'Агентство', 'Ко
 function Navbar() {
   return (
     <NavbarContent>
-      <div className="container">
-        <img src={logo} alt="Logo site" />
+      <Fade delay={3200} duration={2000} triggerOnce>
+        <div className="container">
+          <img src={logo} alt="Logo site" />
 
-        <NavbarContentMenu>
-          {menuItems.map((item) => (
-            <Link className="NavbarContentMenu-item" to="#" key={RandomKey()}>
-              {item}
-            </Link>
-          ))}
-        </NavbarContentMenu>
+          <NavbarContentMenu>
+            {menuItems.map((item) => (
+              <Link className="NavbarContentMenu-item" to="#" key={RandomKey()}>
+                {item}
+              </Link>
+            ))}
+          </NavbarContentMenu>
 
-        <ProjectQuotations>
-          <span className="icon-Telegram" />
-          Обсудить проект
-        </ProjectQuotations>
-      </div>
+          <ProjectQuotations>
+            <span className="icon-Telegram" />
+            Обсудить проект
+          </ProjectQuotations>
+        </div>
+      </Fade>
     </NavbarContent>
   );
 }

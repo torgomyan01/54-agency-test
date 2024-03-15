@@ -100,9 +100,8 @@ function Home() {
 
   return (
     <>
-      <Fade delay={3200} duration={2000} triggerOnce>
-        <Navbar />
-      </Fade>
+      <Navbar />
+
       <div className="container" ref={containerRef}>
         <HeaderText />
         <Fade delay={3200} direction="left" duration={2000} triggerOnce>
