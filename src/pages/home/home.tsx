@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './home.scss';
 import styled from 'styled-components';
 import Navbar from '../../features/navbar/navbar';
@@ -8,6 +8,7 @@ import videoPlay from '../../assets/videos/header-video.mp4';
 import gsap from 'gsap';
 
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Scrollbar from 'smooth-scrollbar';
 gsap.registerPlugin(ScrollTrigger);
 
 const H1 = styled.h1`
@@ -39,7 +40,7 @@ const VideoBlock = styled.div`
   width: 20%;
   overflow: hidden;
   border-radius: 30px;
-  transform: translateY(-450px);
+  transform: translateY(-550px);
   margin-top: 80px;
   display: flex;
   justify-content: center;
@@ -50,9 +51,11 @@ const VideoBlock = styled.div`
   }
 `;
 
+let videoX = 0;
 function Home() {
   const videoRef = useRef<any>(null);
   const containerRef = useRef<any>(null);
+  const PageWrapper = useRef<any>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -62,14 +65,29 @@ function Home() {
       return;
     }
 
+    // Scrollbar.init(PageWrapper.current, {
+    //   damping: 0.05
+    //   // thumbMinSize: 10,
+    //   // renderByPixels: true
+    // });
+
     const onMouseMove = (event: any) => {
       const containerBounds = container.getBoundingClientRect();
       const elementBounds = element.getBoundingClientRect();
       const maxX = containerBounds.width - elementBounds.width;
       const x = event.clientX - containerBounds.left;
 
+      videoX = videoX + event.movementX;
+
+      if (videoX < 0) {
+        videoX = 0;
+      } else if (videoX > maxX) {
+        videoX = maxX;
+      }
+
       gsap.to(element, {
-        x: x < 0 ? 0 : x > maxX ? maxX : x,
+        x: videoX,
+        // x: x < 0 ? 0 : x > maxX ? maxX : x,
         ease: 'power2.out'
       });
     };
@@ -78,19 +96,22 @@ function Home() {
 
     gsap.to(element, {
       scrollTrigger: {
-        trigger: element,
-        start: 'top top-=-100',
-        end: 'top top-=500',
-        // pin: true,
+        trigger: document.body,
+        start: 'top top-=-80',
+        end: 'top top-=550',
+        // markers: true,
         onUpdate(e) {
           const percent = +(e.progress * 100).toFixed();
           gsap.to(element, {
-            y: -(450 - (450 * percent) / 100),
+            y: -(550 - (550 * percent) / 100),
             width: percent >= 20 ? `${percent}%` : '20%',
             ease: 'power2.out'
           });
         }
       }
+    });
+    PageWrapper.current.addEventListener('scroll', function () {
+      console.log('sss');
     });
 
     return () => {
@@ -99,9 +120,8 @@ function Home() {
   }, []);
 
   return (
-    <>
+    <div ref={PageWrapper} className="vh-100">
       <Navbar />
-
       <div className="container" ref={containerRef}>
         <HeaderText />
         <Fade delay={3200} direction="left" duration={2000} triggerOnce>
@@ -120,7 +140,7 @@ function Home() {
           </div>
         </Fade>
       </div>
-    </>
+    </div>
   );
 }
 

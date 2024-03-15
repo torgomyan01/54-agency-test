@@ -2,13 +2,16 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 const HeaderTextDiv = styled.div`
-  margin-top: 201px;
+  display: inline-block;
+  margin-top: 250px;
   text-align: center;
   perspective: 1000px;
   transition: 1s;
+  position: relative;
+  transform: translateY(100px);
 
   &.active {
-    margin-top: 151px;
+    transform: translateY(0);
     path {
       transform: rotateX(0);
     }
@@ -42,6 +45,7 @@ function HeaderText() {
   setTimeout(() => {
     if (activeHeaderText.current) {
       activeHeaderText.current.classList.add('active');
+      // window.scrollTo(0, 0);
     }
   }, 2500);
   return (
