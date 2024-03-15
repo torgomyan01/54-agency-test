@@ -38,6 +38,7 @@ const Discuss = styled.div`
 
 const VideoBlock = styled.div`
   width: 20%;
+  height: 20vh;
   overflow: hidden;
   border-radius: 30px;
   transform: translateY(-550px);
@@ -47,7 +48,6 @@ const VideoBlock = styled.div`
   align-items: center;
   video {
     width: 100%;
-    height: 100%;
   }
 `;
 
@@ -98,13 +98,14 @@ function Home() {
       scrollTrigger: {
         trigger: document.body,
         start: 'top top-=-80',
-        end: 'top top-=550',
+        end: 'top top-=850',
         // markers: true,
         onUpdate(e) {
           const percent = +(e.progress * 100).toFixed();
           gsap.to(element, {
             y: -(550 - (550 * percent) / 100),
             width: percent >= 20 ? `${percent}%` : '20%',
+            height: percent >= 20 ? `${percent - 10}vh` : '20vh',
             ease: 'power2.out'
           });
         }
@@ -122,7 +123,7 @@ function Home() {
   return (
     <div ref={PageWrapper} className="vh-100">
       <Navbar />
-      <div className="container" ref={containerRef}>
+      <div className="container px-0" ref={containerRef}>
         <HeaderText />
         <Fade delay={3200} direction="left" duration={2000} triggerOnce>
           <H1>
