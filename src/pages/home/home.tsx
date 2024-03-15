@@ -3,7 +3,7 @@ import './home.scss';
 import styled from 'styled-components';
 import Navbar from '../../features/navbar/navbar';
 import HeaderText from '../../features/header-text/header-text';
-import { Fade } from 'react-awesome-reveal';
+import { Fade, Zoom } from 'react-awesome-reveal';
 import videoPlay from '../../assets/videos/header-video.mp4';
 import gsap from 'gsap';
 
@@ -83,9 +83,6 @@ function Home() {
         end: 'top top-=500',
         // pin: true,
         onUpdate(e) {
-          const boundingRect = element.getBoundingClientRect();
-          const translateXValue = boundingRect.left - element.offsetLeft;
-
           const percent = +(e.progress * 100).toFixed();
           gsap.to(element, {
             y: -(450 - (450 * percent) / 100),
@@ -103,7 +100,9 @@ function Home() {
 
   return (
     <>
-      <Navbar />
+      <Fade delay={3200} duration={2000} triggerOnce>
+        <Navbar />
+      </Fade>
       <div className="container" ref={containerRef}>
         <HeaderText />
         <Fade delay={3200} direction="left" duration={2000} triggerOnce>
@@ -114,11 +113,13 @@ function Home() {
         <Fade delay={3500} direction="left" duration={2000} triggerOnce>
           <Discuss>Обсудить ваш проект →</Discuss>
         </Fade>
-        <div style={{ height: 2500 }}>
-          <VideoBlock className="video-block" ref={videoRef}>
-            <video src={videoPlay} autoPlay={true} muted loop />
-          </VideoBlock>
-        </div>
+        <Fade delay={3200} duration={2000} triggerOnce>
+          <div style={{ height: 2500 }}>
+            <VideoBlock className="video-block" ref={videoRef}>
+              <video src={videoPlay} autoPlay={true} muted loop />
+            </VideoBlock>
+          </div>
+        </Fade>
       </div>
     </>
   );

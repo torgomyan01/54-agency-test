@@ -2,14 +2,13 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 const HeaderTextDiv = styled.div`
-  margin-top: 101px;
+  margin-top: 201px;
   text-align: center;
   perspective: 1000px;
   transition: 1s;
-  transform: translateY(100px);
 
   &.active {
-    transform: translateY(0);
+    margin-top: 151px;
     path {
       transform: rotateX(0);
     }
