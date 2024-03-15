@@ -45,6 +45,7 @@ const VideoBlock = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.2s;
   video {
     width: 100%;
   }
@@ -67,8 +68,8 @@ function Home() {
     }
 
     const bodyScrollBar: any = Scrollbar.init(document.body, {
-      damping: 0.1
-      // delegateTo: document
+      damping: 0.05
+      // delegateTo: document,
       // alwaysShowTracks: true
     });
     // bodyScrollBar.setPosition(0, 0);
@@ -92,11 +93,17 @@ function Home() {
       scrollTrigger: {
         trigger: PGWrapper,
         start: 'top top-=-80',
-        end: 'top top-=850',
+        end: 'top top-=750',
         // markers: true,
         scrub: true,
         onUpdate(self) {
           const percent = +(self.progress * 100).toFixed();
+          const containerBounds = container.getBoundingClientRect();
+          const elementBounds = element.getBoundingClientRect();
+          const maxX = containerBounds.width - elementBounds.width;
+
+          // console.log(elementBounds.right, containerBounds.width, 0);
+
           gsap.to(element, {
             y: -(550 - (550 * percent) / 100),
             width: percent >= 20 ? `${percent}%` : '20%',
@@ -118,6 +125,7 @@ function Home() {
 
       videoX = videoX + event.movementX;
 
+      // console.log(videoX);
       if (videoX < 0) {
         videoX = 0;
       } else if (videoX > maxX) {
@@ -139,27 +147,29 @@ function Home() {
     };
   }, []);
 
+  const [openVideo, setOpenVideo] = useState<boolean>(false);
+
+  setTimeout(() => {
+    setOpenVideo(true);
+  }, 4000);
+
   return (
     <div ref={PageWrapper} className="PageWrapper">
-      <div style={{ height: 4000 }}>
-        <Navbar />
-        <div className="container px-0" ref={containerRef}>
-          <HeaderText />
-          <Fade delay={3200} direction="left" duration={2000} triggerOnce>
-            <H1>
-              Создаем цифровые продукты, <br /> которые покоряют с первого клика
-            </H1>
-          </Fade>
-          <Fade delay={3500} direction="left" duration={2000} triggerOnce>
-            <Discuss>Обсудить ваш проект →</Discuss>
-          </Fade>
-          {/*<Fade delay={3200} duration={2000} triggerOnce>*/}
-          <div>
-            <VideoBlock className="video-block" ref={videoRef}>
-              <video src={videoPlay} autoPlay={true} muted loop />
-            </VideoBlock>
-          </div>
-          {/*</Fade>*/}
+      <Navbar />
+      <div className="container " ref={containerRef}>
+        <HeaderText />
+        <Fade delay={3200} direction="left" duration={2000} triggerOnce>
+          <H1>
+            Создаем цифровые продукты, <br /> которые покоряют с первого клика
+          </H1>
+        </Fade>
+        <Fade delay={3500} direction="left" duration={2000} triggerOnce>
+          <Discuss>Обсудить ваш проект →</Discuss>
+        </Fade>
+        <div style={{ height: 2000, opacity: openVideo ? 1 : 0 }}>
+          <VideoBlock className="video-block" ref={videoRef}>
+            <video src={videoPlay} autoPlay={true} muted loop />
+          </VideoBlock>
         </div>
       </div>
     </div>
