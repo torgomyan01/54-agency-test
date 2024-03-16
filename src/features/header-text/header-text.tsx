@@ -10,6 +10,10 @@ const HeaderTextDiv = styled.div`
   position: relative;
   transform: translateY(100px);
 
+  @media (max-width: 660px) {
+    margin-top: 100px;
+    transform: translateY(50px);
+  }
   &.active {
     transform: translateY(0);
     path {

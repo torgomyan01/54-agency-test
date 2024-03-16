@@ -17,6 +17,17 @@ const H1 = styled.h1`
   line-height: 66px;
   text-align: left;
   margin-top: 100px;
+
+  @media (max-width: 960px) {
+    font-size: 38px;
+    line-height: unset;
+  }
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
+  @media (max-width: 468px) {
+    font-size: 24px;
+  }
 `;
 
 const Discuss = styled.div`
@@ -32,6 +43,15 @@ const Discuss = styled.div`
   transition: 0.1s;
   &:hover {
     color: rgb(191, 231, 44);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    margin-top: 24px;
+  }
+  @media (max-width: 480px) {
+    font-size: 16px;
+    margin-top: 24px;
   }
 `;
 
@@ -50,6 +70,12 @@ const VideoBlock = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  @media (max-width: 660px) {
+    transform: translateY(0);
+    width: 100%;
+    height: 90vh;
   }
 `;
 
@@ -99,23 +125,25 @@ function Home() {
         // markers: true,
         scrub: true,
         onUpdate(self) {
-          const percent = +(self.progress * 100).toFixed();
-          const containerBounds = container.getBoundingClientRect();
-          const elementBounds = element.getBoundingClientRect();
-          const maxX = containerBounds.width - elementBounds.width;
+          if (window.innerWidth > 660) {
+            const percent = +(self.progress * 100).toFixed();
+            const containerBounds = container.getBoundingClientRect();
+            const elementBounds = element.getBoundingClientRect();
+            const maxX = containerBounds.width - elementBounds.width;
 
-          const elementLeft = elementBounds.left - containerBounds.left;
+            const elementLeft = elementBounds.left - containerBounds.left;
 
-          const difference = (elementLeft + elementBounds.width - containerBounds.width) / 3;
+            const difference = (elementLeft + elementBounds.width - containerBounds.width) / 3;
 
-          videoX = difference > 0 ? videoX - difference : videoX;
-          gsap.to(element, {
-            x: videoX,
-            y: -(550 - (550 * percent) / 100),
-            width: percent >= 20 ? `${percent}%` : '20%',
-            height: percent >= 30 ? `${percent - 10}vh` : '20vh',
-            ease: 'power2.out'
-          });
+            videoX = difference > 0 ? videoX - difference : videoX;
+            gsap.to(element, {
+              x: videoX,
+              y: -(550 - (550 * percent) / 100),
+              width: percent >= 20 ? `${percent}%` : '20%',
+              height: percent >= 30 ? `${percent - 10}vh` : '20vh',
+              ease: 'power2.out'
+            });
+          }
         }
       }
     });
@@ -135,11 +163,13 @@ function Home() {
         videoX = maxX;
       }
 
-      gsap.to(element, {
-        x: videoX,
-        // x: x < 0 ? 0 : x > maxX ? maxX : x,
-        ease: 'power2.out'
-      });
+      if (window.innerWidth > 660) {
+        gsap.to(element, {
+          x: videoX,
+          // x: x < 0 ? 0 : x > maxX ? maxX : x,
+          ease: 'power2.out'
+        });
+      }
     };
 
     container.addEventListener('mousemove', onMouseMove);
