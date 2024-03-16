@@ -67,7 +67,7 @@ function Home() {
       return;
     }
 
-    const bodyScrollBar: any = Scrollbar.init(document.body, {
+    const bodyScrollBar: any = Scrollbar.init(PGWrapper, {
       damping: 0.05
       // delegateTo: document,
       // alwaysShowTracks: true
@@ -75,7 +75,7 @@ function Home() {
     // bodyScrollBar.setPosition(0, 0);
     // bodyScrollBar.track.xAxis.element.remove();
 
-    ScrollTrigger.scrollerProxy(document.body, {
+    ScrollTrigger.scrollerProxy(PGWrapper, {
       scrollTop(value) {
         if (arguments.length) {
           bodyScrollBar.scrollTop = value;
@@ -91,10 +91,10 @@ function Home() {
 
     gsap.to(element, {
       scrollTrigger: {
-        trigger: PGWrapper,
-        start: 'top top-=-80',
+        trigger: container,
+        start: 'top top-=-50',
         end: 'top top-=750',
-        // markers: true,
+        markers: true,
         scrub: true,
         onUpdate(self) {
           const percent = +(self.progress * 100).toFixed();
