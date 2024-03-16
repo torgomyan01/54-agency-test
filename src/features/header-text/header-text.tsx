@@ -50,12 +50,7 @@ function HeaderText() {
   }, 2500);
   return (
     <HeaderTextDiv ref={activeHeaderText}>
-      <svg
-        width="1764"
-        height="248"
-        viewBox="0 0 1764 248"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+      <svg width="1764" viewBox="0 0 1764 248" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M1525.68 4.4751H1591.48L1644.78 95.9371L1698.74 4.4751H1763.88L1671.76 150.88V243H1615.5V150.222L1525.68 4.4751Z"
           fill="#808080"
