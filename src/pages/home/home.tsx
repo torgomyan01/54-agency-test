@@ -29,7 +29,7 @@ const Discuss = styled.div`
   border-bottom: 1px solid #fff;
   margin-top: 46px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.1s;
   &:hover {
     color: rgb(191, 231, 44);
   }
@@ -45,9 +45,11 @@ const VideoBlock = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.2s;
+  transition: width 0.2s;
   video {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 
@@ -68,7 +70,7 @@ function Home() {
     }
 
     const bodyScrollBar: any = Scrollbar.init(PGWrapper, {
-      damping: 0.05
+      damping: 0.1
       // delegateTo: document,
       // alwaysShowTracks: true
     });
@@ -94,7 +96,7 @@ function Home() {
         trigger: container,
         start: 'top top-=-50',
         end: 'top top-=750',
-        markers: true,
+        // markers: true,
         scrub: true,
         onUpdate(self) {
           const percent = +(self.progress * 100).toFixed();
@@ -102,17 +104,18 @@ function Home() {
           const elementBounds = element.getBoundingClientRect();
           const maxX = containerBounds.width - elementBounds.width;
 
-          // console.log(elementBounds.right, containerBounds.width, 0);
+          const elementLeft = elementBounds.left - containerBounds.left;
 
+          const difference = (elementLeft + elementBounds.width - containerBounds.width) / 3;
+
+          videoX = difference > 0 ? videoX - difference : videoX;
           gsap.to(element, {
+            x: videoX,
             y: -(550 - (550 * percent) / 100),
             width: percent >= 20 ? `${percent}%` : '20%',
-            height: percent >= 20 ? `${percent - 10}vh` : '20vh',
+            height: percent >= 30 ? `${percent - 10}vh` : '20vh',
             ease: 'power2.out'
           });
-        },
-        onEnter() {
-          console.log('gtav');
         }
       }
     });
